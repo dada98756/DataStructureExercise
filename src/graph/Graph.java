@@ -6,12 +6,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 
 public class Graph {
-	
+
 	public static Set<Node> nodeSet = new HashSet<Node>();
 	public static HashMap<Node,Node> cycleMap = new HashMap<Node,Node>();
 	public static boolean DFS(Node n){
@@ -39,7 +40,7 @@ public class Graph {
 		n.color=Color.black;
 		return false;
 	}
-	
+
 	public static void DFSStack(Node n){
 		if (n == null){
 			return;
@@ -48,16 +49,16 @@ public class Graph {
 		nodeStack.push(n);
 		while(!nodeStack.isEmpty()){
 			Node node = nodeStack.pop();
-			if (!nodeSet.contains(node)){
-				System.out.println(node.val);
-				nodeSet.add(node);
-				for (Node c: node.neighbors){
+			System.out.println(node.val);
+			for (Node c: node.neighbors){
+				if (!nodeSet.contains(node)){
 					nodeStack.push(c);
+					nodeSet.add(node);
 				}
 			}
 		}
 	}
-	
+
 	public static void BFSSimple(Node n){
 		if (n == null){
 			return;
@@ -66,16 +67,16 @@ public class Graph {
 		nodeQueue.offer(n);
 		while(!nodeQueue.isEmpty()){
 			Node node = nodeQueue.poll();
-			if (!nodeSet.contains(node)){
-				System.out.println(node.val);
-				nodeSet.add(node);
-				for (Node c: node.neighbors){
+			for (Node c: node.neighbors){
+				if (!nodeSet.contains(node)){
+					System.out.println(node.val);
+					nodeSet.add(node);
 					nodeQueue.offer(c);
 				}
 			}
 		}
 	}
-	
+
 	public static void BFS(Node n){
 		if (n == null){
 			return;
@@ -101,7 +102,7 @@ public class Graph {
 			currLevel = nextLevel;
 		}
 	}
-	
+
 	static class Node{
 		int val;
 		ArrayList<Node> neighbors;
